@@ -672,7 +672,8 @@
     <div>
       <div class="section-head">01 — Your Portfolio</div>
 
-      <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept=".pdf" style="display:none">
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
         <div class="upload-icon-wrap">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 12V4M9 4L6 7M9 4l3 3" stroke="#fdfbff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
@@ -691,9 +692,14 @@
       </div>
     </div>
 
-    <div class="url-row">
+      <div class="url-row">
       <span class="url-pre">https://</span>
-      <input class="url-input" type="text" placeholder="yourportfolio.com · dribbble.com/you · notion.so/..." />
+      <input class="url-input" id="urlInput" type="text" placeholder="yourportfolio.com · dribbble.com/you · notion.so/..." />
+    </div>
+
+    <div class="url-row" style="margin-top: 10px;">
+      <span class="url-pre">Password</span>
+      <input class="url-input" id="passwordInput" type="password" placeholder="For password-protected links" />
     </div>
 
     <div class="scan-hint">
@@ -711,7 +717,7 @@
       <div class="q-grid">
         <div class="q-field">
           <label class="q-label">Role you're targeting</label>
-          <select class="q-select">
+          <select class="q-select" id="roleSelect">
             <option value="" disabled selected>Select role type</option>
             <option>IC Product Designer</option>
             <option>Senior IC / Staff</option>
@@ -723,7 +729,7 @@
 
         <div class="q-field">
           <label class="q-label">Years of experience</label>
-          <select class="q-select">
+          <select class="q-select" id="yearsSelect">
             <option value="" disabled selected>Select range</option>
             <option>0 – 3 years</option>
             <option>4 – 7 years</option>
@@ -734,7 +740,7 @@
 
         <div class="q-field" style="grid-column: 1 / -1">
           <label class="q-label">Type of company you're targeting</label>
-          <select class="q-select">
+          <select class="q-select" id="companySelect">
             <option value="" disabled selected>Select company type</option>
             <option>Early-stage startup (Seed / Series A)</option>
             <option>Scale-up (Series B / C)</option>
@@ -772,7 +778,7 @@
         </svg>
         Your portfolio is never stored<br>or shown to other users
       </div>
-      <button class="submit-btn" onclick="window.location.href='scanning.html'">
+      <button class="submit-btn" onclick="runScan()">
         <img src="images/scan-icon.svg" alt="" style="width:18px; height:18px; display:block;">
         Run the scan
         <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -789,8 +795,31 @@
     el.classList.toggle('selected');
   }
 
+  function runScan() {
+    const url      = document.getElementById('urlInput').value.trim();
+    const role     = document.getElementById('roleSelect').value;
+    const years    = document.getElementById('yearsSelect').value;
+    const company  = document.getElementById('companySelect').value;
+    const concerns = [...document.querySelectorAll('.chip.selected')].map(c => c.textContent.trim());
+
+    localStorage.setItem('scanData', JSON.stringify({ url, role, years, company, concerns }));
+    window.location.href = 'scanning.html';
+  }
+
   // Drag and drop
   const zone = document.getElementById('uploadZone');
+  const fileInput = document.getElementById('fileInput');
+
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+      zone.querySelector('.upload-title').textContent = file.name;
+      zone.querySelector('.upload-sub').textContent = `${(file.size / 1024 / 1024).toFixed(1)} MB · ready to scan`;
+      zone.style.borderStyle = 'solid';
+      zone.style.borderColor = 'var(--blue)';
+      zone.style.background = 'rgba(50,50,232,0.05)';
+    }
+  });
   zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-active'); });
   zone.addEventListener('dragleave', () => zone.classList.remove('drag-active'));
   zone.addEventListener('drop', e => {

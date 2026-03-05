@@ -776,7 +776,7 @@
     Dreaming in Design
   </a>
   <div class="header-right">
-    <div class="context-pill">Jordan M. · <span>Senior IC · Series B · 8–12 yrs</span></div>
+    <div class="context-pill" id="contextPill">Jordan M. · <span>Senior IC · Series B · 8–12 yrs</span></div>
     <button class="new-scan-btn" onclick="window.location.href='portfolio-intake.html'">← New scan</button>
   </div>
 </header>
@@ -788,11 +788,11 @@
     <div class="greeting-left">
       <img src="images/thumbnail.jpg" alt="Portfolio thumbnail" style="width:200px; height:auto; border-radius:12px; border:1px solid var(--blue-border); flex-shrink:0; display:block;">
       <div class="greeting-text">
-        <div class="greeting-hello">Here's your read, <em>Jordan.</em></div>
-        <div class="greeting-sub">Scanned <span>jordanmdesign.com</span> · <span style="white-space:nowrap">today at 5:14 pm</span></div>
+        <div class="greeting-hello" id="greetingHello">Here's your read, <em>Jordan.</em></div>
+        <div class="greeting-sub">Scanned <span id="scannedUrl">jordanmdesign.com</span> · <span style="white-space:nowrap" id="scannedTime">today at 5:14 pm</span></div>
       </div>
     </div>
-    <div class="greeting-tags">
+    <div class="greeting-tags" id="greetingTags">
       <div class="gtag concern">↳ "I don't know what level it positions me for"</div>
       <div class="gtag-divider"></div>
       <div class="gtag concern">↳ "Haven't updated it in months"</div>
@@ -802,7 +802,7 @@
   <!-- Summary bar -->
   <div class="summary-bar">
     <div class="summary-left">
-      <div class="eyebrow">Jordan's results</div>
+      <div class="eyebrow" id="eyebrow">Jordan's results</div>
       <div class="overall-label">Overall score</div>
       <div class="overall-score-row">
         <div class="overall-score" id="overallScore">0</div>
@@ -959,7 +959,82 @@
 </div>
 
 <script>
-  // Portfolio thumbnail avatar
+  // ── Populate from intake form data ──────────────────────────────────────
+  (function() {
+    const raw = localStorage.getItem('scanData');
+    if (!raw) return;
+    const d = JSON.parse(raw);
+
+    // Shorten helpers
+    function shortRole(r) {
+      return { 'IC Product Designer':'IC Designer', 'Senior IC / Staff':'Senior IC',
+               'Lead / Principal':'Lead/Principal', 'Design Manager':'Design Manager',
+               'Director of Design':'Director' }[r] || r;
+    }
+    function shortYears(y) {
+      return y ? y.replace(' years','').replace(' yrs','').trim() + ' yrs' : '';
+    }
+    function shortCompany(c) {
+      return { 'Early-stage startup (Seed / Series A)':'Seed/Series A',
+               'Scale-up (Series B / C)':'Series B/C',
+               'Large tech / FAANG':'FAANG',
+               'Enterprise / Corp':'Enterprise',
+               'Agency / Studio':'Agency',
+               'Open — show me across the board':'Open' }[c] || c;
+    }
+    function extractName(url) {
+      if (!url) return null;
+      let clean = url.replace(/^https?:\/\//,'').replace(/^www\./,'');
+      let domain = clean.split('/')[0].split('.')[0];
+      let letters = domain.match(/^[a-zA-Z]+/);
+      if (!letters) return null;
+      let n = letters[0].slice(0,12);
+      return n.charAt(0).toUpperCase() + n.slice(1).toLowerCase();
+    }
+
+    const url      = d.url || '';
+    const role     = d.role || '';
+    const years    = d.years || '';
+    const company  = d.company || '';
+    const concerns = d.concerns || [];
+    const name     = extractName(url);
+    const displayUrl = url || 'your portfolio';
+
+    // Current time
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+
+    // Header context pill
+    const pillParts = [role && shortRole(role), company && shortCompany(company), years && shortYears(years)].filter(Boolean);
+    if (pillParts.length) {
+      document.getElementById('contextPill').innerHTML =
+        (displayUrl ? displayUrl + ' · ' : '') + '<span>' + pillParts.join(' · ') + '</span>';
+    }
+
+    // Greeting hello
+    const helloEl = document.getElementById('greetingHello');
+    helloEl.innerHTML = name
+      ? 'Here\'s your read, <em>' + name + '.</em>'
+      : 'Here\'s your read.';
+
+    // Scanned URL + time
+    document.getElementById('scannedUrl').textContent = displayUrl;
+    document.getElementById('scannedTime').textContent = 'today at ' + timeStr;
+
+    // Greeting concern tags
+    if (concerns.length) {
+      const tagsEl = document.getElementById('greetingTags');
+      tagsEl.innerHTML = concerns.map((c, i) =>
+        (i > 0 ? '<div class="gtag-divider"></div>' : '') +
+        '<div class="gtag concern">↳ ' + c + '</div>'
+      ).join('');
+    }
+
+    // Eyebrow
+    document.getElementById('eyebrow').textContent = name ? name + '\'s results' : 'Your results';
+  })();
+
+  // ── Portfolio thumbnail avatar
   const portfolioUrl = 'jordanmdesign.com';
   const fullUrl = 'https://' + portfolioUrl;
   const thumb = document.getElementById('avatarThumb');
