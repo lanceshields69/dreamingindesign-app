@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreaming in Design – Your Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #F9E0FF;
+    --pink-dark: #f0c8f8;
+    --blue: #3232e8;
+    --dark-blue: #1a1aaa;
+    --black: #0a0a0a;
+    --white: #fdfbff;
+    --blue-border: rgba(50, 50, 232, 0.15);
+    --blue-border-hover: rgba(50, 50, 232, 0.35);
+    --blue-glow: rgba(50, 50, 232, 0.08);
+    --text-muted: rgba(10, 10, 10, 0.45);
+    --text-mid: rgba(10, 10, 10, 0.65);
+    --green: #1e7a46;
+    --green-glow: rgba(30, 122, 70, 0.1);
+    --amber: #a06000;
+    --red: #c0392b;
+    --card-bg: rgba(255, 255, 255, 0.7);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--pink);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--blue-border);
+    position: sticky;
+    top: 0;
+    background: rgba(249, 224, 255, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: var(--blue);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .context-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(50,50,232,0.06);
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .context-pill span { color: var(--blue); font-weight: 500; }
+
+  .new-scan-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: 2px solid var(--blue-border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .new-scan-btn:hover {
+    border-color: var(--blue);
+    background: var(--blue-glow);
+  }
+
+  /* Page wrap */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 48px 120px;
+  }
+
+  /* Personal greeting strip */
+  .greeting-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 40px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .greeting-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    border: 2px solid var(--blue-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--blue);
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    background: rgba(50,50,232,0.06);
+  }
+
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* Thumbnail preview */
+  .avatar-thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    border: 2px solid var(--blue-border);
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+    background: rgba(50,50,232,0.06);
+    box-shadow: 0 2px 12px rgba(50,50,232,0.12);
+  }
+
+  .avatar-thumb iframe {
+    width: 1200px;
+    height: 900px;
+    transform: scale(0.0467);
+    transform-origin: top left;
+    pointer-events: none;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .avatar-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .greeting-text { display: flex; flex-direction: column; gap: 4px; }
+
+  .greeting-hello {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--black);
+    letter-spacing: -0.02em;
+  }
+
+  .greeting-hello em { font-style: italic; color: var(--blue); }
+
+  .greeting-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  .greeting-sub span { color: var(--blue); font-weight: 500; }
+
+  .greeting-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-left: 30px;
+  }
+
+  .gtag {
+    padding: 5px 12px;
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.5);
+  }
+
+  .gtag.concern {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(50,50,232,0.06);
+    font-weight: 500;
+  }
+
+  .gtag-divider {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--blue-border);
+  }
+
+  /* Top summary bar */
+  .summary-bar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--blue-border);
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before { content: ''; width: 20px; height: 2px; background: var(--blue); border-radius: 1px; }
+
+  .overall-label {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .overall-score-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .overall-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 96px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--blue);
+    letter-spacing: -0.03em;
+  }
+
+  .overall-denom {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .overall-verdict {
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.65;
+    max-width: 420px;
+  }
+
+  .overall-verdict strong { color: var(--black); font-weight: 500; }
+
+  /* Score bar visual */
+  .score-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  .score-track {
+    width: 220px;
+    height: 6px;
+    background: var(--blue-border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--dark-blue), var(--blue));
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+  }
+
+  .score-percentile {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  .score-percentile strong { color: var(--blue); font-weight: 500; }
+
+  /* Score cards */
+  .cards-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cards-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-border); }
+
+  .score-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .score-card {
+    background: var(--white);
+    border: 1px solid var(--blue-border);
+    border-radius: 16px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .score-card:hover {
+    border-color: var(--blue-border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(50,50,232,0.1);
+  }
+
+  .score-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .score-card.high::before { background: var(--green); }
+  .score-card.mid::before { background: var(--amber); }
+  .score-card.low::before { background: var(--red); }
+
+  .card-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .score-card.high .card-number { color: var(--green); }
+  .score-card.mid .card-number { color: var(--amber); }
+  .score-card.low .card-number { color: var(--red); }
+
+  .card-bar-track {
+    height: 3px;
+    background: var(--blue-border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .card-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1) 0.6s;
+  }
+
+  .score-card.high .card-bar-fill { background: var(--green); }
+  .score-card.mid .card-bar-fill { background: var(--amber); }
+  .score-card.low .card-bar-fill { background: var(--red); }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .card-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  /* Gate section */
+  .gate {
+    background: var(--white);
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease 0.4s both;
+    position: relative;
+  }
+
+  /* Blurred preview rows */
+  .preview-rows {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--blue-border);
+    position: relative;
+  }
+
+  .preview-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--blue-border); }
+
+  .blurred-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    filter: blur(5px);
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .blurred-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: rgba(50,50,232,0.04);
+    border-radius: 10px;
+    border: 1px solid var(--blue-border);
+  }
+
+  .blurred-priority {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--white);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .blurred-content { flex: 1; }
+
+  .blurred-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 4px;
+  }
+
+  .blurred-sub {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .preview-fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--white));
+    pointer-events: none;
+  }
+
+  /* Upgrade panel */
+  .upgrade-panel {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .upgrade-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .upgrade-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 20px;
+  }
+
+  .upgrade-title em { font-style: italic; color: var(--blue); }
+
+  .upgrade-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .upgrade-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-mid);
+  }
+
+  .check {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--green-glow);
+    border: 1.5px solid var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .check svg { width: 9px; height: 9px; }
+
+  /* Pricing cards */
+  .pricing-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 270px;
+  }
+
+  .price-card {
+    padding: 22px 24px;
+    border: 2px solid var(--blue-border);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background: rgba(249,224,255,0.5);
+  }
+
+  .price-card:hover {
+    border-color: var(--blue-border-hover);
+    background: rgba(50,50,232,0.04);
+  }
+
+  .price-card.featured {
+    border-color: var(--blue);
+    background: rgba(50,50,232,0.06);
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -11px;
+    right: 16px;
+    padding: 3px 12px;
+    background: var(--blue);
+    border-radius: 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .price-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .price-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .price-amount sup {
+    font-size: 14px;
+    font-weight: 700;
+    vertical-align: super;
+  }
+
+  .price-card.featured .price-amount { color: var(--blue); }
+
+  .price-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .price-cta {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .price-card.featured .price-cta {
+    background: var(--blue);
+    color: var(--white);
+  }
+
+  .price-card.featured .price-cta:hover {
+    background: var(--dark-blue);
+    box-shadow: 0 6px 20px rgba(50,50,232,0.3);
+    transform: translateY(-1px);
+  }
+
+  .price-card:not(.featured) .price-cta {
+    background: transparent;
+    border: 2px solid var(--blue-border);
+    color: var(--text-mid);
+  }
+
+  .price-card:not(.featured) .price-cta:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  /* Subscription note */
+  .sub-note {
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+    padding: 18px 40px;
+    border-top: 1px solid var(--blue-border);
+    line-height: 1.6;
+  }
+
+  .sub-note a {
+    color: var(--blue);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .sub-note a:hover { text-decoration: underline; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .score-card:nth-child(1) { animation-delay: 0.15s; }
+  .score-card:nth-child(2) { animation-delay: 0.22s; }
+  .score-card:nth-child(3) { animation-delay: 0.29s; }
+  .score-card:nth-child(4) { animation-delay: 0.36s; }
+  .score-card:nth-child(5) { animation-delay: 0.43s; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--pink); }
+  ::-webkit-scrollbar-thumb { background: var(--blue-border-hover); border-radius: 2px; }
+
+  footer {
+    background: var(--black);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-icon { width: 34px; height: auto; }
+
+  .footer-note, .footer-credit {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="#">
+    <img src="images/Logo-icon.svg" alt="" style="width:40px; height:auto; display:block;">
+    Dreaming in Design
+  </a>
+  <div class="header-right">
+    <div class="context-pill">Jordan M. · <span>Senior IC · Series B · 8–12 yrs</span></div>
+    <button class="new-scan-btn" onclick="window.location.href='portfolio-intake.html'">← New scan</button>
+  </div>
+</header>
+
+<div class="page">
+
+  <!-- Greeting strip -->
+  <div class="greeting-strip">
+    <div class="greeting-left">
+      <img src="images/thumbnail.jpg" alt="Portfolio thumbnail" style="width:200px; height:auto; border-radius:12px; border:1px solid var(--blue-border); flex-shrink:0; display:block;">
+      <div class="greeting-text">
+        <div class="greeting-hello">Here's your read, <em>Jordan.</em></div>
+        <div class="greeting-sub">Scanned <span>jordanmdesign.com</span> · <span style="white-space:nowrap">today at 5:14 pm</span></div>
+      </div>
+    </div>
+    <div class="greeting-tags">
+      <div class="gtag concern">↳ "I don't know what level it positions me for"</div>
+      <div class="gtag-divider"></div>
+      <div class="gtag concern">↳ "Haven't updated it in months"</div>
+    </div>
+  </div>
+
+  <!-- Summary bar -->
+  <div class="summary-bar">
+    <div class="summary-left">
+      <div class="eyebrow">Jordan's results</div>
+      <div class="overall-label">Overall score</div>
+      <div class="overall-score-row">
+        <div class="overall-score" id="overallScore">0</div>
+        <div class="overall-denom">/ 10</div>
+      </div>
+      <p class="overall-verdict">
+        <strong>Solid foundation with real gaps.</strong> Your storytelling is your strongest asset — but your concern is valid: Differentiation and Case Study depth are the exact signals that determine level reads. Senior roles want more than good process. You're fixably close.
+      </p>
+    </div>
+    <div class="score-visual">
+      <div class="score-track">
+        <div class="score-fill" id="overallFill"></div>
+      </div>
+      <div class="score-percentile">
+        Scores higher than <strong>61%</strong> of designers<br>at your level &amp; target
+      </div>
+    </div>
+  </div>
+
+  <!-- Score cards -->
+  <div class="cards-label">Dimension scores</div>
+
+  <div class="score-cards">
+
+    <div class="score-card mid" style="animation-delay:0.15s">
+      <div class="card-number" data-score="7.2">0</div>
+      <div class="card-bar-track"><div class="card-bar-fill" data-pct="72"></div></div>
+      <div class="card-title">First Impression</div>
+      <div class="card-desc">Your homepage communicates your role but loses attention before the first case study.</div>
+    </div>
+
+    <div class="score-card low" style="animation-delay:0.22s">
+      <div class="card-number" data-score="5.8">0</div>
+      <div class="card-bar-track"><div class="card-bar-fill" data-pct="58"></div></div>
+      <div class="card-title">Case Study Quality</div>
+      <div class="card-desc">Strong process documentation — weak on outcomes and business impact.</div>
+    </div>
+
+    <div class="score-card high" style="animation-delay:0.29s">
+      <div class="card-number" data-score="8.1">0</div>
+      <div class="card-bar-track"><div class="card-bar-fill" data-pct="81"></div></div>
+      <div class="card-title">Storytelling</div>
+      <div class="card-desc">Clear narrative arc. Your writing voice is confident and readable.</div>
+    </div>
+
+    <div class="score-card low" style="animation-delay:0.36s">
+      <div class="card-number" data-score="4.9">0</div>
+      <div class="card-bar-track"><div class="card-bar-fill" data-pct="49"></div></div>
+      <div class="card-title">Differentiation</div>
+      <div class="card-desc">Looks like many other mid-level portfolios. Your POV isn't visible yet.</div>
+    </div>
+
+    <div class="score-card mid" style="animation-delay:0.43s">
+      <div class="card-number" data-score="7.5">0</div>
+      <div class="card-bar-track"><div class="card-bar-fill" data-pct="75"></div></div>
+      <div class="card-title">Role Readiness</div>
+      <div class="card-desc">Positions well for mid-level. Senior roles would want more leadership signal.</div>
+    </div>
+
+  </div>
+
+  <!-- Gate -->
+  <div class="gate">
+
+    <div class="preview-rows">
+      <div class="preview-label">What to fix, in order</div>
+      <div class="blurred-rows">
+
+        <div class="blurred-row">
+          <div class="blurred-priority">1</div>
+          <div class="blurred-content">
+            <div class="blurred-title">Add a quantified outcome to every case study</div>
+            <div class="blurred-sub">Your Differentiation score is being dragged down by the absence of business results. Even directional metrics ("reduced drop-off by ~30%") outperform no metrics. This is your highest-leverage fix.</div>
+          </div>
+        </div>
+
+        <div class="blurred-row">
+          <div class="blurred-priority">2</div>
+          <div class="blurred-content">
+            <div class="blurred-title">Rewrite your homepage headline to signal seniority</div>
+            <div class="blurred-sub">Your current headline reads as a generalist. At the Senior IC level, hiring managers need to see a specific POV within 8 seconds. A targeted headline change will move your Role Readiness score significantly.</div>
+          </div>
+        </div>
+
+        <div class="blurred-row">
+          <div class="blurred-priority">3</div>
+          <div class="blurred-content">
+            <div class="blurred-title">Surface your decision-making — not just your process</div>
+            <div class="blurred-sub">Your case studies show what you did, not why you chose it over alternatives. One paragraph per project explaining a hard tradeoff would demonstrate senior judgment clearly.</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="preview-fade"></div>
+    </div>
+
+    <div class="upgrade-panel">
+      <div class="upgrade-left">
+        <div class="upgrade-eyebrow">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1l1.2 2.5L9 4 7 6l.5 3L5 7.5 2.5 9 3 6 1 4l2.8-.5L5 1z" fill="#3232e8"/></svg>
+          Full report unlocked below
+        </div>
+        <h2 class="upgrade-title">Jordan, here's exactly what's<br>holding your score back — and<br><em>how to fix it.</em></h2>
+        <div class="upgrade-features">
+          <div class="upgrade-feature">
+            <div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-3" stroke="#1e7a46" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            Prioritized fix list — what to change first, second, third
+          </div>
+          <div class="upgrade-feature">
+            <div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-3" stroke="#1e7a46" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            Per-case-study breakdown with specific rewrites
+          </div>
+          <div class="upgrade-feature">
+            <div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-3" stroke="#1e7a46" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            How you compare to others targeting the same role
+          </div>
+          <div class="upgrade-feature">
+            <div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-3" stroke="#1e7a46" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            What a hiring manager thinks in the first 10 seconds
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-stack">
+
+        <div class="price-card featured">
+          <div class="featured-badge">Most popular</div>
+          <div class="price-card-top">
+            <span class="price-name">Full Report</span>
+            <span class="price-amount"><sup>$</sup>19</span>
+          </div>
+          <div class="price-desc">One complete analysis · instant delivery · yours to keep</div>
+          <button class="price-cta">Get the full report →</button>
+        </div>
+
+        <div class="price-card">
+          <div class="price-card-top">
+            <span class="price-name">Monthly · 3 reports</span>
+            <span class="price-amount"><sup>$</sup>49</span>
+          </div>
+          <div class="price-desc">Best for active job search · covers your whole campaign</div>
+          <button class="price-cta">Start subscription</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sub-note">
+      Not ready to pay? <a href="#">Share your score</a> to get 1 free report credit — or <a href="#">rescan after making changes</a> free.
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // Portfolio thumbnail avatar
+  const portfolioUrl = 'jordanmdesign.com';
+  const fullUrl = 'https://' + portfolioUrl;
+  const thumb = document.getElementById('avatarThumb');
+
+  function setFallback() {
+    thumb.innerHTML = `
+      <div style="
+        width:100%; height:100%;
+        background: rgba(50,50,232,0.1);
+        display:flex; align-items:center; justify-content:center;
+        font-family:'Playfair Display',serif;
+        font-size:22px; font-weight:900; color:#3232e8;
+      ">J</div>`;
+  }
+
+  // Try screenshot API (works for real URLs)
+  const screenshotSrc = `https://api.screenshotone.com/take?url=${encodeURIComponent(fullUrl)}&viewport_width=1200&viewport_height=900&format=jpg&quality=80&access_key=free`;
+
+  // Use a reliable open screenshot service
+  const thumbnailUrl = `https://image.thum.io/get/width/400/crop/280/noanimate/${fullUrl}`;
+
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    thumb.innerHTML = '';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:6px;';
+    thumb.appendChild(img);
+  };
+  img.onerror = () => {
+    // Fallback: show miniaturized iframe preview
+    thumb.innerHTML = `
+      <iframe src="${fullUrl}" scrolling="no" style="
+        width:1200px; height:900px;
+        transform:scale(0.0467); transform-origin:top left;
+        pointer-events:none; border:none;
+        position:absolute; top:0; left:0;
+      "></iframe>
+      <div style="position:absolute;inset:0;z-index:2;border-radius:10px;"></div>`;
+    // If iframe also fails after 3s, show letter fallback
+    setTimeout(() => {
+      const iframe = thumb.querySelector('iframe');
+      if (!iframe) return;
+      try {
+        if (!iframe.contentDocument || iframe.contentDocument.body.innerHTML === '') setFallback();
+      } catch(e) { /* cross-origin — iframe likely loaded fine */ }
+    }, 3000);
+  };
+  img.src = thumbnailUrl;
+
+  // Animate a counter, calls onDone when finished
+  function animateCount(el, target, duration, onDone) {
+    const start = performance.now();
+    const update = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      el.textContent = (ease * target).toFixed(1);
+      if (t < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = target.toFixed(1);
+        if (onDone) onDone();
+      }
+    };
+    requestAnimationFrame(update);
+  }
+
+  function animateCardNumbers() {
+    document.querySelectorAll('.card-number[data-score]').forEach((el, i) => {
+      const score = parseFloat(el.dataset.score);
+      setTimeout(() => animateCount(el, score, 700), i * 80);
+    });
+  }
+
+  function animateBars() {
+    // Overall fill bar
+    const fill = document.getElementById('overallFill');
+    if (fill) fill.style.width = '66.7%';
+    // Card bars staggered with their numbers
+    document.querySelectorAll('.card-bar-fill[data-pct]').forEach((el, i) => {
+      setTimeout(() => { el.style.width = el.dataset.pct + '%'; }, 100 + i * 80);
+    });
+  }
+
+  // Start overall score, then kick off cards when it finishes
+  const overallEl = document.getElementById('overallScore');
+  setTimeout(() => {
+    animateCount(overallEl, 6.7, 1000, () => {
+      animateCardNumbers();
+      animateBars();
+    });
+  }, 100);
+
+  // Pricing hover state
+  document.querySelectorAll('.price-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      document.querySelectorAll('.price-card').forEach(c => c.style.opacity = '0.7');
+      card.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', () => {
+      document.querySelectorAll('.price-card').forEach(c => c.style.opacity = '1');
+    });
+  });
+</script>
+
+<footer>
+  <div class="footer-logo">
+    <img src="images/Logo-icon-white.svg" alt="" class="footer-icon">
+    Dreaming in Design
+  </div>
+  <div class="footer-note">Built for designers, by a designer.</div>
+  <div class="footer-credit">Designed in Figma. Built with Claude Code.</div>
+</footer>
+
+</body>
+</html>

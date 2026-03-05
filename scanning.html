@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreaming in Design – Scanning...</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #be6dcc 0%, #9090e0 100%);
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+  }
+
+  /* Loader icon */
+  .loader-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.2s forwards;
+  }
+
+  /* Status text */
+  .scan-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 28px;
+    letter-spacing: 0.01em;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.35s forwards;
+  }
+
+  /* Thumbnail wrapper */
+  .thumb-wrap {
+    position: relative;
+    width: 300px;
+    height: 191px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.5s forwards;
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /* Scan line */
+  .scan-line {
+    position: absolute;
+    left: -33px;
+    right: -33px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 10%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0.15) 90%, transparent 100%);
+    box-shadow: 0 0 12px 4px rgba(255,255,255,0.5);
+    top: 0;
+    animation: scanMove 1.6s ease-in-out infinite;
+  }
+
+  /* Glow overlay under the scan line */
+  .scan-line::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    top: -20px;
+    height: 40px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent);
+    pointer-events: none;
+  }
+
+  @keyframes scanMove {
+    0%   { top: 0%; }
+    50%  { top: calc(100% - 3px); }
+    100% { top: 0%; }
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    width: 300px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.65s forwards;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 7px;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 22px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    border-radius: 22px 0 0 22px;
+    transition: width 0.1s linear;
+  }
+
+  .progress-pct {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+
+  <div class="scan-label">AI scan in progress. Hang tight...</div>
+
+  <div class="thumb-wrap">
+    <img src="images/thumbnail.jpg" alt="Portfolio being scanned">
+    <div class="scan-line"></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+
+<script>
+  const fill = document.getElementById('progressFill');
+  const pct  = document.getElementById('progressPct');
+
+  const DURATION = 10000; // 10 seconds
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / DURATION, 1);
+
+    // Ease-out so it slows slightly near the end
+    const eased = progress < 1
+      ? 1 - Math.pow(1 - progress, 1.5)
+      : 1;
+
+    const pctVal = Math.round(eased * 100);
+    fill.style.width = pctVal + '%';
+    pct.textContent  = pctVal + '%';
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      // Brief pause at 100%, then navigate
+      setTimeout(() => {
+        window.location.href = 'results-page.html';
+      }, 400);
+    }
+  }
+
+  // Start slightly after elements fade in
+  setTimeout(() => requestAnimationFrame(update), 700);
+</script>
+</body>
+</html>

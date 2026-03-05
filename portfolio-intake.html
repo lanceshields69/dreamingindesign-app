@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dreaming in Design – Portfolio Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #F9E0FF;
+    --pink-dark: #f0c8f8;
+    --blue: #3232e8;
+    --dark-blue: #1a1aaa;
+    --black: #0a0a0a;
+    --white: #fdfbff;
+    --blue-glow: rgba(50, 50, 232, 0.08);
+    --blue-border: rgba(50, 50, 232, 0.15);
+    --blue-border-hover: rgba(50, 50, 232, 0.35);
+    --text-muted: rgba(10, 10, 10, 0.45);
+    --text-mid: rgba(10, 10, 10, 0.65);
+    --success: #1a6640;
+    --card-bg: rgba(255, 255, 255, 0.6);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--pink);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  header {
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--blue-border);
+    background: rgba(249, 224, 255, 0.85);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    color: var(--blue);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wordmark em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .step-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--blue-border);
+    border: 2px solid var(--blue-border-hover);
+  }
+
+  .step-dot.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    box-shadow: 0 0 10px rgba(50,50,232,0.4);
+  }
+
+  .step-dot.done {
+    background: var(--success);
+    border-color: var(--success);
+  }
+
+  /* Main layout */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+  }
+
+  /* Left column */
+  .left-col {
+    padding: 72px 48px;
+    border-right: 1px solid var(--blue-border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: fadeIn 0.6s ease both;
+    background: rgba(249, 224, 255, 0.4);
+  }
+
+  .left-top { }
+
+  .label-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px 5px 6px;
+    background: rgba(50,50,232,0.06);
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    margin-bottom: 32px;
+  }
+
+  .label-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--blue);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(50,50,232,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(50,50,232,0); }
+  }
+
+  .label-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 3vw, 48px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -0.02em;
+    color: var(--black);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--blue);
+  }
+
+  .subtext {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-mid);
+    margin-bottom: 48px;
+  }
+
+  /* Promise bar */
+  .promise-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid var(--blue-border);
+    border-radius: 16px;
+    margin-bottom: 40px;
+  }
+
+  .promise-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .promise-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .promise-icon svg { width: 10px; height: 10px; }
+
+  .promise-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--text-mid);
+  }
+
+  .promise-text strong {
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  /* Stats */
+  .stats-row {
+    display: flex;
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--blue-border);
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 3px; }
+
+  .stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--blue);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .stat-l {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* Right column */
+  .right-col {
+    padding: 72px 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    animation: fadeIn 0.6s ease 0.1s both;
+    max-width: 640px;
+  }
+
+  /* Section headers */
+  .section-head {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .section-head::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--blue-border);
+  }
+
+  /* Upload zone */
+  .upload-zone {
+    border: 2px dashed var(--blue-border-hover);
+    border-radius: 16px;
+    padding: 36px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.4);
+    position: relative;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--blue);
+    background: rgba(50,50,232,0.05);
+  }
+
+  .upload-icon-wrap {
+    width: 48px;
+    height: 48px;
+    background: var(--blue);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+  }
+
+  .upload-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--black);
+    margin-bottom: 5px;
+  }
+
+  .upload-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  /* Divider */
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .or-divider::before, .or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--blue-border);
+  }
+
+  .or-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* URL field */
+  .url-row {
+    display: flex;
+    border: 2px solid var(--blue-border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .url-row:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(50,50,232,0.1);
+  }
+
+  .url-pre {
+    padding: 14px 16px;
+    background: rgba(50,50,232,0.06);
+    border-right: 2px solid var(--blue-border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--blue);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    user-select: none;
+  }
+
+  .url-input {
+    flex: 1;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--black);
+  }
+
+  .url-input::placeholder { color: rgba(10,10,10,0.3); }
+
+  /* Questions grid */
+  .q-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .q-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .q-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(10,10,10,0.7);
+    letter-spacing: 0.02em;
+  }
+
+  .q-select {
+    padding: 12px 36px 12px 14px;
+    background: rgba(255,255,255,0.6);
+    border: 2px solid var(--blue-border);
+    border-radius: 10px;
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%233232e8' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .q-select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(50,50,232,0.1);
+    background-color: rgba(255,255,255,0.9);
+  }
+
+  /* Concern chips */
+  .concern-block { grid-column: 1 / -1; }
+
+  .concern-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(10,10,10,0.7);
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .concern-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    background: rgba(50,50,232,0.1);
+    border: 1px solid var(--blue-border);
+    border-radius: 20px;
+    color: var(--blue);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.6);
+    border: 2px solid var(--blue-border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    line-height: 1;
+  }
+
+  .chip:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(50,50,232,0.05);
+  }
+
+  .chip.selected {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+  }
+
+  /* CTA row */
+  .cta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+  }
+
+  .privacy-note {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .lock-icon { opacity: 0.6; }
+
+  .submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .submit-btn:hover {
+    background: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(50,50,232,0.25);
+  }
+
+  .submit-btn .arrow {
+    transition: transform 0.2s;
+  }
+
+  .submit-btn:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* Scan preview hint */
+  .scan-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    background: rgba(50,50,232,0.06);
+    border: 1px solid var(--blue-border);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 12px 12px 0;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .scan-hint strong {
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--pink); }
+  ::-webkit-scrollbar-thumb { background: var(--blue-border-hover); border-radius: 2px; }
+
+  footer {
+    background: var(--black);
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .footer-icon { width: 34px; height: auto; }
+
+  .footer-note, .footer-credit {
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.55);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="#">
+    <img src="images/Logo-icon.svg" alt="" style="width:40px; height:auto; display:block;">
+    Dreaming in Design
+  </a>
+  <div class="step-track">
+    <div class="step-dot active"></div>
+    <div class="step-dot"></div>
+    <div class="step-dot"></div>
+  </div>
+</header>
+
+<main>
+
+  <!-- LEFT -->
+  <div class="left-col">
+    <div class="left-top">
+      <div class="label-tag">
+        <div class="label-dot"></div>
+        <span class="label-text">Portfolio Analysis</span>
+      </div>
+
+      <h1>What does your portfolio <em>actually</em> say?</h1>
+
+      <p class="subtext">
+        Three calibration questions. One honest scan — reviewed against actual hiring manager standards, not a generic rubric. You'll know exactly what to fix and in what order.
+      </p>
+
+      <div class="promise-bar">
+        <div class="promise-item">
+          <div class="promise-icon">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="5" cy="5" r="3" stroke="#fdfbff" stroke-width="1.2"/>
+              <path d="M5 3v2.5" stroke="#fdfbff" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="promise-text"><strong>First-10-seconds read</strong> — what a hiring manager actually notices before they keep scrolling</span>
+        </div>
+        <div class="promise-item">
+          <div class="promise-icon">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 7l3-5 3 5" stroke="#fdfbff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="promise-text"><strong>Prioritized fix list</strong> — not a wall of notes; exactly what to address first</span>
+        </div>
+        <div class="promise-item">
+          <div class="promise-icon">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1.5" y="2.5" width="7" height="5" rx="1" stroke="#fdfbff" stroke-width="1.2"/>
+              <path d="M3.5 5h3" stroke="#fdfbff" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="promise-text"><strong>Calibrated to your target</strong> — Series B startup feedback looks nothing like FAANG feedback</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-n">400+</span>
+        <span class="stat-l">Portfolios reviewed</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">72%</span>
+        <span class="stat-l">Designers feel unsure</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">2/3</span>
+        <span class="stat-l">Never heard real feedback</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right-col">
+
+    <!-- Upload section -->
+    <div>
+      <div class="section-head">01 — Your Portfolio</div>
+
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12V4M9 4L6 7M9 4l3 3" stroke="#fdfbff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3 13.5v1a1 1 0 001 1h10a1 1 0 001-1v-1" stroke="#fdfbff" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="upload-title">Drop your PDF or case study deck</div>
+        <div class="upload-sub">PDF · up to 20MB · or click to browse</div>
+      </div>
+    </div>
+
+    <!-- URL option -->
+    <div>
+      <div class="or-divider">
+        <span class="or-text">or share a link</span>
+      </div>
+    </div>
+
+    <div class="url-row">
+      <span class="url-pre">https://</span>
+      <input class="url-input" type="text" placeholder="yourportfolio.com · dribbble.com/you · notion.so/..." />
+    </div>
+
+    <div class="scan-hint">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="7" r="5.5" stroke="#3232e8" stroke-width="1.2"/>
+        <path d="M7 6v4M7 4.5v.5" stroke="#3232e8" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      We'll scan the full page — Behance, Notion, personal sites, and password-protected Figma links all work.
+    </div>
+
+    <!-- Calibration questions -->
+    <div>
+      <div class="section-head">02 — Calibration</div>
+
+      <div class="q-grid">
+        <div class="q-field">
+          <label class="q-label">Role you're targeting</label>
+          <select class="q-select">
+            <option value="" disabled selected>Select role type</option>
+            <option>IC Product Designer</option>
+            <option>Senior IC / Staff</option>
+            <option>Lead / Principal</option>
+            <option>Design Manager</option>
+            <option>Director of Design</option>
+          </select>
+        </div>
+
+        <div class="q-field">
+          <label class="q-label">Years of experience</label>
+          <select class="q-select">
+            <option value="" disabled selected>Select range</option>
+            <option>0 – 3 years</option>
+            <option>4 – 7 years</option>
+            <option>8 – 12 years</option>
+            <option>12+ years</option>
+          </select>
+        </div>
+
+        <div class="q-field" style="grid-column: 1 / -1">
+          <label class="q-label">Type of company you're targeting</label>
+          <select class="q-select">
+            <option value="" disabled selected>Select company type</option>
+            <option>Early-stage startup (Seed / Series A)</option>
+            <option>Scale-up (Series B / C)</option>
+            <option>Large tech / FAANG</option>
+            <option>Enterprise / Corp</option>
+            <option>Agency / Studio</option>
+            <option>Open — show me across the board</option>
+          </select>
+        </div>
+
+        <!-- Concern chips -->
+        <div class="concern-block">
+          <div class="concern-label">
+            What's your biggest concern right now?
+            <span class="concern-badge">Personalizes your scan</span>
+          </div>
+          <div class="chips" id="chips">
+            <div class="chip" onclick="toggleChip(this)">"I don't know if it's actually good"</div>
+            <div class="chip" onclick="toggleChip(this)">"I can't tell what level it positions me for"</div>
+            <div class="chip" onclick="toggleChip(this)">"Case studies don't tell a strong story"</div>
+            <div class="chip" onclick="toggleChip(this)">"It doesn't show impact or outcomes"</div>
+            <div class="chip" onclick="toggleChip(this)">"Looks generic — doesn't feel like me"</div>
+            <div class="chip" onclick="toggleChip(this)">"Haven't updated it in months"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <div class="privacy-note">
+        <svg class="lock-icon" width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="1" y="6" width="10" height="7" rx="1.5" stroke="#0a0a0a" stroke-width="1.2"/>
+          <path d="M3.5 6V4.5a2.5 2.5 0 015 0V6" stroke="#0a0a0a" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        Your portfolio is never stored<br>or shown to other users
+      </div>
+      <button class="submit-btn" onclick="window.location.href='scanning.html'">
+        <img src="images/scan-icon.svg" alt="" style="width:18px; height:18px; display:block;">
+        Run the scan
+        <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke="#fdfbff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  function toggleChip(el) {
+    el.classList.toggle('selected');
+  }
+
+  // Drag and drop
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-active'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-active'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-active');
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      zone.querySelector('.upload-title').textContent = file.name;
+      zone.querySelector('.upload-sub').textContent = `${(file.size / 1024 / 1024).toFixed(1)} MB · ready to scan`;
+      zone.style.borderStyle = 'solid';
+      zone.style.borderColor = 'var(--success)';
+    }
+  });
+</script>
+
+<footer>
+  <div class="footer-logo">
+    <img src="images/Logo-icon-white.svg" alt="" class="footer-icon">
+    Dreaming in Design
+  </div>
+  <div class="footer-note">Built for designers, by a designer.</div>
+  <div class="footer-credit">Designed in Figma. Built with Claude Code.</div>
+</footer>
+
+</body>
+</html>
